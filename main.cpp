@@ -19,6 +19,7 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
 	
 	QTextCodec::setCodecForTr(QTextCodec::codecForName("CP1251"));
+	
 
 	if (!start())
 	{
@@ -28,6 +29,7 @@ int main(int argc, char **argv)
 	
 	MyWidget myWidget;
 	//myWidget.change_cursor();
+	myWidget.setWindowIcon(QIcon("icon.png"));
 	
 	QObject::connect(&myWidget, SIGNAL(destroyed()), &app, SLOT(quit()));
 	

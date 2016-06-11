@@ -48,6 +48,8 @@ private:
 		QClipboard*        mpClipboard;
 
 		QStringList mStrListFiles; // список файлов из папки
+		//QStringList mStrListCacheWord; // список кеша слов, для которых были найдены звуковые файлы
+		QHash <QString, QString> mCacheFiles; // контейнер для найденных звуковых файлов
 		quint32 mNumber; // количество файлов в папке
 		
 public:	
@@ -94,8 +96,11 @@ public:
 		const qint32 getCurrentIndex() const     { return mCurrentIndex; }
 		      void   setCurrentIndex(qint32 ind) { mCurrentIndex = ind;  }
 	    inline QStringList getStringListName(const QList <SoundFile*>& listPsoundFile);
-	    inline void play();
+	    inline void play(QString& AbsFilePath);
 		inline void changeStateButton(QAbstractButton* pButton);
+		inline void addCache();
+		inline bool loadCache();
+		inline bool saveCache();
 	    
 		~MyWidget()
 		{
@@ -105,6 +110,7 @@ public:
 	public slots:
         void pressedEnter();
         void choiceItemFromList(QListWidgetItem* item);
+		void choiceItemFromCacheWord(QListWidgetItem* item); // выбор слова из кеша
 		void fromClipboardToLineEdit();
 
 		void choiceFileInExplorer();
@@ -121,6 +127,19 @@ public:
 protected:
 	void keyPressEvent(QKeyEvent*   pe);
 	bool event(QEvent* pe); // переключение на английский ввод при активном окне
+	void closeEvent(QCloseEvent* event)
+	{
+		if (saveCache())
+		{
+			qDebug() << "closeEvent is accept";
+			event->accept();
+		} 
+		else 
+		{
+			qDebug() << "closeEvent is ignore";
+			event->ignore();
+		}
+	}
 };
 
 //void extractFiles(const QStringList& listFiles, MyWidget*);

@@ -37,10 +37,10 @@ public:
     QRadioButton *radioButtonRepeat;
     QSpinBox *spinBox;
     QListWidget *listWidgetFiles;
-    QLabel *labelNote;
-    QLabel *label_2;
     QLabel *label_3;
     QCheckBox *checkBox;
+    QListWidget *cacheWord;
+    QLabel *label;
 
     void setupUi(QWidget *Form)
     {
@@ -80,6 +80,7 @@ public:
         font2.setPointSize(9);
         volumeSlider->setFont(font2);
         volumeSlider->setCursor(QCursor(Qt::PointingHandCursor));
+        volumeSlider->setMaximumVolume(0.5);
         commandLinkButton = new QCommandLinkButton(Form);
         commandLinkButton->setObjectName(QString::fromUtf8("commandLinkButton"));
         commandLinkButton->setGeometry(QRect(480, 165, 191, 42));
@@ -105,19 +106,21 @@ public:
         font3.setPointSize(11);
         listWidgetFiles->setFont(font3);
         listWidgetFiles->viewport()->setProperty("cursor", QVariant(QCursor(Qt::PointingHandCursor)));
-        labelNote = new QLabel(Form);
-        labelNote->setObjectName(QString::fromUtf8("labelNote"));
-        labelNote->setGeometry(QRect(480, 260, 421, 151));
-        labelNote->setFrameShape(QFrame::Box);
-        label_2 = new QLabel(Form);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(490, 220, 131, 21));
         label_3 = new QLabel(Form);
         label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setGeometry(QRect(40, 220, 171, 19));
         checkBox = new QCheckBox(Form);
         checkBox->setObjectName(QString::fromUtf8("checkBox"));
         checkBox->setGeometry(QRect(40, 440, 351, 23));
+        cacheWord = new QListWidget(Form);
+        cacheWord->setObjectName(QString::fromUtf8("cacheWord"));
+        cacheWord->setGeometry(QRect(480, 260, 421, 151));
+        cacheWord->setFont(font3);
+        cacheWord->viewport()->setProperty("cursor", QVariant(QCursor(Qt::PointingHandCursor)));
+        cacheWord->setSortingEnabled(true);
+        label = new QLabel(Form);
+        label->setObjectName(QString::fromUtf8("label"));
+        label->setGeometry(QRect(485, 220, 66, 19));
 
         retranslateUi(Form);
         QObject::connect(lineEditInput, SIGNAL(textChanged(QString)), labelOutput, SLOT(clear()));
@@ -128,6 +131,8 @@ public:
         QObject::connect(listWidgetFiles, SIGNAL(itemActivated(QListWidgetItem*)), Form, SLOT(choiceItemFromList(QListWidgetItem*)));
         QObject::connect(listWidgetFiles, SIGNAL(itemClicked(QListWidgetItem*)), Form, SLOT(choiceItemFromList(QListWidgetItem*)));
         QObject::connect(checkBox, SIGNAL(stateChanged(int)), lineEditInput, SLOT(setFocus()));
+        QObject::connect(cacheWord, SIGNAL(itemClicked(QListWidgetItem*)), Form, SLOT(choiceItemFromCacheWord(QListWidgetItem*)));
+        QObject::connect(cacheWord, SIGNAL(itemActivated(QListWidgetItem*)), Form, SLOT(choiceItemFromCacheWord(QListWidgetItem*)));
 
         QMetaObject::connectSlotsByName(Form);
     } // setupUi
@@ -139,10 +144,9 @@ public:
         labelOutput->setText(QString());
         commandLinkButton->setText(QApplication::translate("Form", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214 \321\204\320\260\320\271\320\273", 0, QApplication::UnicodeUTF8));
         radioButtonRepeat->setText(QApplication::translate("Form", " \320\237\320\276\320\262\321\202\320\276\321\200\321\217\321\202\321\214 (Shift + Alt + \342\206\222)", 0, QApplication::UnicodeUTF8));
-        labelNote->setText(QString());
-        label_2->setText(QApplication::translate("Form", "\320\237\321\200\320\270\320\274\320\265\321\207\320\260\320\275\320\270\321\217:", 0, QApplication::UnicodeUTF8));
         label_3->setText(QApplication::translate("Form", "\320\227\320\262\321\203\320\272\320\276\320\262\321\213\320\265 \321\204\320\260\320\271\320\273\321\213:", 0, QApplication::UnicodeUTF8));
         checkBox->setText(QApplication::translate("Form", "\320\222\321\213\320\262\320\265\321\201\321\202\320\270 \321\201\320\273\320\276\320\262\320\276\321\201\320\276\321\207\320\265\321\202\320\260\320\275\320\270\321\217 (Alt + \342\206\222)", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("Form", "\320\232\320\265\321\210:", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

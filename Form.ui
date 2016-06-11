@@ -109,6 +109,9 @@
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
+   <property name="maximumVolume">
+    <double>0.500000000000000</double>
+   </property>
   </widget>
   <widget class="QCommandLinkButton" name="commandLinkButton">
    <property name="geometry">
@@ -201,35 +204,6 @@
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
   </widget>
-  <widget class="QLabel" name="labelNote">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>260</y>
-     <width>421</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>220</y>
-     <width>131</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Примечания:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
@@ -254,6 +228,41 @@
    </property>
    <property name="text">
     <string>Вывести словосочетания (Alt + →)</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="cacheWord">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>260</y>
+     <width>421</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="sortingEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>485</x>
+     <y>220</y>
+     <width>66</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Кеш:</string>
    </property>
   </widget>
  </widget>
@@ -394,11 +403,44 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>cacheWord</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>Form</receiver>
+   <slot>choiceItemFromCacheWord(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>595</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>595</x>
+     <y>417</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cacheWord</sender>
+   <signal>itemActivated(QListWidgetItem*)</signal>
+   <receiver>Form</receiver>
+   <slot>choiceItemFromCacheWord(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>684</x>
+     <y>388</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>686</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>setFocusLineEdit()</slot>
   <slot>pressedEnter()</slot>
   <slot>choiceFileInExplorer()</slot>
   <slot>choiceItemFromList(QListWidgetItem*)</slot>
+  <slot>choiceItemFromCacheWord(QListWidgetItem*)</slot>
  </slots>
 </ui>

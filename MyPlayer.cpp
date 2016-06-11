@@ -13,6 +13,7 @@ void MyPlayer::createMyPlayer(Ui::Form* ui)
 	
 	uiForm = ui;
 	uiForm ->volumeSlider ->setAudioOutput(mpAudioOutput);
+	//uiForm ->volumeSlider ->setMaximumVolume(0.5);
 	
 	QObject::connect(this, SIGNAL(clearMediaObject()), mpMediaObject, SLOT(clear()));
 	QObject::connect(mpMediaObject, SIGNAL(finished()), this, SLOT(startPlay()));

@@ -42,6 +42,9 @@ MyWidget::MyWidget(QWidget *parent) : QWidget(parent), uiForm(new Ui::Form),
 	
 	mMyPlayer.createMyPlayer(uiForm);
 	
+	if (loadCache())
+		uiForm ->cacheWord ->addItems(mCacheFiles.keys());
+	
 	mpClipboard = QApplication::clipboard(); 
 	fromClipboardToLineEdit(); // текст из буфера обмена -> в строку ввода слова
 	
@@ -167,7 +170,7 @@ qDebug() << (t2 - t1 + .0) / CLOCKS_PER_SEC << endl;
 	} // if
 
     
-    // получение из списка имён файлов, списка имён файлов и списка абсолютных путей к файлам, по введённому слову
+    // получение, из списка имён файлов, списка имён файлов и списка абсолютных путей к файлам, по введённому слову
 	return extractFiles(mStrListFiles);
 }
 #endif
@@ -536,19 +539,72 @@ qDebug() << QWidget::tr("Изменился!");
 	
 	uiForm ->labelOutput ->setText(mCurrentWord);
 	uiForm ->lineEditInput ->setText(mCurrentWord);
-	play(); // воспроизведение текущего файла
+	play(mCurrentAbsFilePath); // воспроизведение текущего файла
 }
 
-// Воспроизведение текущего файла
-void MyWidget::play()
+void MyWidget::addCache()
 {
-	qDebug() << "mCurrentAbsFilePath = " << mCurrentAbsFilePath;
-	if (!GlobalVariables::getGlobalVariables().LIST_EXT.contains(SoundFile::extractExt(mCurrentAbsFilePath)))
+	// добавление в кеш слова и звукового файла (пути)
+	if (mCacheFiles.find(mCurrentWord) == mCacheFiles.end())
+	{
+		mCacheFiles.insert(mCurrentWord, mCurrentAbsFilePath);
+		
+		//mStrListCacheWord.append(mCurrentWord);
+		//mStrListCacheWord.sort();
+		// вывод кеша
+		//uiForm ->cacheWord ->clear();
+	    //uiForm ->cacheWord ->addItems(mStrListCacheWord);
+		uiForm ->cacheWord ->addItem(mCurrentWord);
+	}
+}
+
+bool MyWidget::loadCache()
+{
+	QFile file("Cache.dat");
+	if (file.open(QIODevice::ReadOnly))
+	{
+		QDataStream in(&file);
+		in >> mCacheFiles;
+		file.close();
+		return true;
+	}
+	return false;
+}
+
+bool MyWidget::saveCache()
+{
+	QFile file("Cache.dat");
+	if (file.open(QIODevice::WriteOnly))
+	{
+		QDataStream out(&file);
+		out << mCacheFiles;
+		file.close();
+		return true;
+	}
+	return false;
+}
+
+void MyWidget::choiceItemFromCacheWord(QListWidgetItem* item) // выбор слова из кеша
+{
+	//uiForm ->lineEditInput ->setText(item ->text());
+	//mCurrentAbsFilePath = mCacheFiles.value(item ->text());
+	QString AbsFilePath = mCacheFiles.value(item ->text());
+	//mpClipboard ->setText(item ->text());
+	play(AbsFilePath); // воспроизведение файла 
+	
+    //pressedEnter();
+}
+
+// Воспроизведение файла
+void MyWidget::play(QString& AbsFilePath)
+{
+	qDebug() << "mCurrentAbsFilePath = " << AbsFilePath;
+	if (!GlobalVariables::getGlobalVariables().LIST_EXT.contains(SoundFile::extractExt(AbsFilePath)))
 	{
 		uiForm ->labelOutput ->setText(QWidget::tr("Файл не подходит\nдля воспроизведения!"));
 		return;
 	}
-	mMyPlayer.play(mCurrentAbsFilePath); // воспроизведение файла
+	mMyPlayer.play(AbsFilePath); // воспроизведение файла
 }
 
 // Установка нового текущего индекса в списках
@@ -658,7 +714,7 @@ qDebug() <<  QWidget::tr("Нажата Enter. Найденный файл не изменился!");
 #endif
 		//setNewCurrentIndex(getIndexString(mCurrentListFileName, word, "OneWord"));
         
-		play(); // воспроизведение текущего файла
+		play(mCurrentAbsFilePath); // воспроизведение текущего файла
 		break;
 	case 5 : // файл со словом есть в текущем списке, но текущий файл не равен введённому слову
 #ifdef DEBUG 
@@ -669,7 +725,7 @@ qDebug() <<  QWidget::tr("Нажата Enter. Найденный файл изменился!");
 		{
 			setNewCurrentIndex(ind); // установка нового текущего индекса
 		
-			play(); // воспроизведение текущего файла
+			play(mCurrentAbsFilePath); // воспроизведение текущего файла
 			break;
 		}
 		// если такого файла в списке нет (т.е., есть только словосочетания с введённым словом), то поиск файлов
@@ -683,7 +739,6 @@ qDebug() <<  QWidget::tr("Поиск файлов!");
 	    // поиск звуковых файлов по слову
 		if (findFiles(word)) // если файлы существуют
 		{
-			
 			showFilesFound(); // вывод в список имён найденных файлов
 			// новый текущий индекс (в списке - это индекс самого короткого имени файла (основное слово))
 			setNewCurrentIndex(getIndSmallestElement(mCurrentListFileName)); 
@@ -692,7 +747,9 @@ qDebug() <<  QWidget::tr("Поиск файлов!");
 			
 			//mpClipboard ->setText(mCurrentWord);
 			
-			play(); // воспроизведение текущего файла 
+			play(mCurrentAbsFilePath); // воспроизведение текущего файла
+			
+			addCache(); // добавление слова и файла в кеш
 		}
 		else // если файлов, с таким словом, нет
 		{
