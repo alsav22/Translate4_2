@@ -110,7 +110,7 @@
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="maximumVolume">
-    <double>0.500000000000000</double>
+    <double>1.000000000000000</double>
    </property>
   </widget>
   <widget class="QCommandLinkButton" name="commandLinkButton">

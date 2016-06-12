@@ -140,6 +140,13 @@ protected:
 			event->ignore();
 		}
 	}
+
+	void mousePressEvent(QMouseEvent* e)
+	{
+		//qDebug() << "PressEvent  " << e ->x() << "  " << e ->y();
+		
+		
+	}
 };
 
 //void extractFiles(const QStringList& listFiles, MyWidget*);

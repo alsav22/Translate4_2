@@ -80,7 +80,7 @@ public:
         font2.setPointSize(9);
         volumeSlider->setFont(font2);
         volumeSlider->setCursor(QCursor(Qt::PointingHandCursor));
-        volumeSlider->setMaximumVolume(0.5);
+        volumeSlider->setMaximumVolume(1);
         commandLinkButton = new QCommandLinkButton(Form);
         commandLinkButton->setObjectName(QString::fromUtf8("commandLinkButton"));
         commandLinkButton->setGeometry(QRect(480, 165, 191, 42));

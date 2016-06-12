@@ -41,6 +41,12 @@ MyWidget::MyWidget(QWidget *parent) : QWidget(parent), uiForm(new Ui::Form),
 	setWindowTitle(QWidget::tr("Произношение-4"));
 	
 	mMyPlayer.createMyPlayer(uiForm);
+
+	/*int X = uiForm ->volumeSlider ->x();
+	int Y = uiForm ->volumeSlider ->y();
+	QPoint p(X + 125, Y + 15);
+	QMouseEvent* pressEvent = new QMouseEvent(QEvent::MouseMove, p, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(this, pressEvent);*/
 	
 	if (loadCache())
 		uiForm ->cacheWord ->addItems(mCacheFiles.keys());
