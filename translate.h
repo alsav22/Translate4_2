@@ -143,9 +143,8 @@ protected:
 
 	void mousePressEvent(QMouseEvent* e)
 	{
-		//qDebug() << "PressEvent  " << e ->x() << "  " << e ->y();
-		
-		
+		qDebug() << "PressEvent  " << e ->x() << "  " << e ->y();
+		QWidget::mousePressEvent(e);
 	}
 };
 

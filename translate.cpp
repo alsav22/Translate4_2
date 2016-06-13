@@ -51,9 +51,10 @@ MyWidget::MyWidget(QWidget *parent) : QWidget(parent), uiForm(new Ui::Form),
 	
 	MySlider* myslider = new MySlider(this);
 	myslider ->setGeometry(X, y + 20, W, H);
+	myslider ->setAudioOutput(mMyPlayer.mpAudioOutput);
 	this ->resize(width(), height() + 50);
 
-	QPoint p(myslider ->x() + 125, myslider ->y() + (myslider ->height() / 2));
+	QPoint p(myslider ->x() + 85, myslider ->y() + (myslider ->height() / 2));
 	QMouseEvent* pressEvent = new QMouseEvent(QEvent::MouseButtonPress, p, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     QCoreApplication::sendEvent(myslider, pressEvent);
 	//QCoreApplication::sendEvent(myWidget.uiForm ->volumeSlider, pressEvent);

@@ -14,6 +14,7 @@ protected:
 	void mousePressEvent(QMouseEvent* e)
 	{
 		qDebug() << "PressEvent MySlider  " << e ->x() << "  " << e ->y();
+		Phonon::VolumeSlider::mousePressEvent(e);
 	}
 };
 #endif

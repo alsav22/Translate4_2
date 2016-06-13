@@ -13,14 +13,15 @@ class MyPlayer : public QWidget
 {
 	Q_OBJECT
 	
-	Phonon::AudioOutput*  mpAudioOutput;
+	
     Phonon::MediaObject*  mpMediaObject;
     Ui::Form* uiForm;
 	QString mFileName;
 	int countLoopPlay;
 
 public: 
-     
+    
+	Phonon::AudioOutput*  mpAudioOutput;
     void createMyPlayer(Ui::Form*);
 
 	Phonon::MediaObject* getmpMediaObject()
