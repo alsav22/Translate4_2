@@ -6,7 +6,7 @@
 class MySlider: public Phonon::VolumeSlider
 {
 public:
-	MySlider(QWidget* parent = 0)
+	MySlider(QWidget* parent = 0) : Phonon::VolumeSlider(parent)
 	{}
 
 protected:
