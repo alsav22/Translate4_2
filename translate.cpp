@@ -10,6 +10,7 @@
 #include "GVariables.h"
 #include "MyThread.h"
 #include "Data.h"
+#include "MySlider.h"
 #include "ui_Form.h"
 
 #ifdef Q_OS_LINUX
@@ -41,6 +42,21 @@ MyWidget::MyWidget(QWidget *parent) : QWidget(parent), uiForm(new Ui::Form),
 	setWindowTitle(QWidget::tr("Произношение-4"));
 	
 	mMyPlayer.createMyPlayer(uiForm);
+
+	int X = uiForm ->volumeSlider ->x();
+	int Y = uiForm ->volumeSlider ->y();
+	int W = uiForm ->volumeSlider ->width();
+	int H = uiForm ->volumeSlider ->height();
+	int y = uiForm ->checkBox ->y() + uiForm ->checkBox ->height();
+	MySlider* myslider = new MySlider(this);
+	//uiForm ->volumeSlider = myslider;
+	myslider ->setGeometry(X, y + 10, W, H);
+
+	//QPoint p(X + 125, Y + 15);
+	//QPoint p(0, 0);
+	//QMouseEvent* pressEvent = new QMouseEvent(QEvent::MouseButtonPress, p, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    //QCoreApplication::sendEvent(&myWidget, pressEvent);
+	//QCoreApplication::sendEvent(myWidget.uiForm ->volumeSlider, pressEvent);
 
 	/*int X = uiForm ->volumeSlider ->x();
 	int Y = uiForm ->volumeSlider ->y();
