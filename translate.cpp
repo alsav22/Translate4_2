@@ -48,9 +48,11 @@ MyWidget::MyWidget(QWidget *parent) : QWidget(parent), uiForm(new Ui::Form),
 	int W = uiForm ->volumeSlider ->width();
 	int H = uiForm ->volumeSlider ->height();
 	int y = uiForm ->checkBox ->y() + uiForm ->checkBox ->height();
-	MySlider* myslider = new MySlider(this);
+	//MySlider* myslider = new MySlider(this);
+	Phonon::VolumeSlider* myslider = new Phonon::VolumeSlider(this);
 	//uiForm ->volumeSlider = myslider;
-	myslider ->setGeometry(X, y + 10, W, H);
+	myslider ->setGeometry(X, y + 20, W, H);
+	this ->resize(width(), height() + 50);
 
 	//QPoint p(X + 125, Y + 15);
 	//QPoint p(0, 0);
